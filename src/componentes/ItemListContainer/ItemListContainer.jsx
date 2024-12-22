@@ -2,10 +2,12 @@ import React from 'react'
 import './ItemListContainer.css'
 
 
-const ItemListContainer = () => {
+const ItemListContainer = ({subtitulo}) => {
+
+
   return (
     <>
-    <h2>Listado de vinos</h2>
+    <h2>{subtitulo}</h2>
     
     </>
   )
