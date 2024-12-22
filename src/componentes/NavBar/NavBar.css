@@ -1,0 +1,36 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: grey;
+    padding: 5px 0px 5px 0px;
+}
+
+ul{
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    justify-items: center;
+    
+    
+}
+
+li{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: black;
+    font-weight: bold;
+    align-content: last baseline;
+    justify-content: space-between;
+    margin: 10px 10px;
+}
+
+li:hover{
+    color:blue;
+    border-bottom: 2px solid;
+}
+
+.logo{
+    width: 75px;
+    height: auto;
+    align-self: center;
+}
