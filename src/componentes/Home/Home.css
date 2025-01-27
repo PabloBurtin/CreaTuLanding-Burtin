@@ -1,0 +1,38 @@
+.Home {
+    background-color: #c5d0daf4;
+    padding: 20px;
+    border-radius: 8px;
+    
+}
+
+.Home label {
+    display: block; 
+    margin: 10px 0; 
+}
+
+.Home input,
+.Home textarea{
+    width: 100%; 
+    padding: 10px; 
+    margin-top: 5px; 
+    border-radius: 4px; 
+    border: 1px solid #ccc; 
+}
+
+.Home button {
+    background-color: #0f1610;
+    color: white; 
+    cursor: pointer;
+    display: block;
+    border-radius: 4px;
+    border: 1px solid white;
+    margin: 20px auto;
+    width: 30%;
+    font-size: 16px;    
+   
+
+}
+
+.Home button:hover {
+    background-color: #45a049;
+}

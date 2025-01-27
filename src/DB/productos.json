@@ -1,0 +1,131 @@
+[
+    {
+        "ID":1,
+        "Bodega": "Zucardi",
+        "Linea": "Alambrado",
+        "Cepa": "Malbec",
+        "Precio": 5900,
+        "Stock": 10,
+        "Imagen": "../../public/Imagenes/Productos/Alambrado/alambrado-malbec.jpg"
+    },
+
+    {
+        "ID":2,
+        "Bodega": "Zucardi",
+        "Linea": "Alambrado",
+        "Cepa": "Cabernet",
+        "Precio": 5900,
+        "Stock": 8,
+        "Imagen": "../../public/Imagenes/Productos/Alambrado/alambrado-cabernet.jpg"
+    },
+
+    {
+        "ID":3,
+        "Bodega": "Zucardi",
+        "Linea": "Gran Alambrado",
+        "Cepa": "Cabernet",
+        "Precio": 7100,
+        "Stock": 8,
+        "Imagen": "../../public/Imagenes/Productos/Alambrado/gran-alambrado-cabernet.jpg"
+    },
+
+    {
+        "ID":4,
+        "Bodega": "Zucardi",
+        "Linea": "Gran Alambrado",
+        "Cepa": "Malbec",
+        "Precio": 7100,
+        "Stock": 5,
+        "Imagen": "../../public/Imagenes/Productos/Alambrado/gran-alambrado-malbec.jpg"
+    },
+
+    {
+        "ID":5,
+        "Bodega": "El Nevado",
+        "Linea": "Aturdido",
+        "Cepa": "Cabernet",
+        "Precio": 3400,
+        "Stock": 12,
+        "Imagen": "../../public/Imagenes/Productos/Aturdido/Aturdido-cabernet.png"
+    },
+
+    {
+        "ID":6,
+        "Bodega": "El Nevado",
+        "Linea": "Aturdido",
+        "Cepa": "Malbec",
+        "Precio": 3400,
+        "Stock": 25,
+        "Imagen": "../../public/Imagenes/Productos/Aturdido/Aturdido-malbec.png"
+    },
+
+    {
+        "ID":7,
+        "Bodega": "El Nevado",
+        "Linea": "Aturdido",
+        "Cepa": "Red Blend",
+        "Precio": 3400,
+        "Stock": 30,
+        "Imagen": "../../public/Imagenes/Productos/Aturdido/Aturdido-Redblend.png"
+    },
+
+    {
+        "ID":8,
+        "Bodega": "El Nevado",
+        "Linea": "Aturdido",
+        "Cepa": "Gran Corte",
+        "Precio": 5400,
+        "Stock": 15,
+        "Imagen": "../../public/Imagenes/Productos/Aturdido/Aturdido-Gran-Corte.png"
+    },
+
+    {
+        "ID":9,
+        "Bodega": "Agostino Wines",
+        "Linea": "Casa Agostino",
+        "Cepa": "Malbec",
+        "Precio": 4800,
+        "Stock": 13,
+        "Imagen": "../../public/Imagenes/Productos/Casa-Agostino/Casa-Malbec.jpg"
+    },
+
+    {
+        "ID":10,
+        "Bodega": "Lola Montes",
+        "Linea": "Circus",
+        "Cepa": "Malbec",
+        "Precio": 2900,
+        "Stock": 25,
+        "Imagen": "../../public/Imagenes/Productos/Circus/Circus-Malbec.png"
+    },
+
+    {
+        "ID":11,
+        "Bodega": "Lola Montes",
+        "Linea": "Circus",
+        "Cepa": "Red Blend",
+        "Precio": 2900,
+        "Stock": 25,
+        "Imagen": "../../public/Imagenes/Productos/Circus/Circus-redblend.png"
+    },
+
+    {
+        "ID":12,
+        "Bodega": "Lola Montes",
+        "Linea": "Circus",
+        "Cepa": "Sauvignon blanc",
+        "Precio": 2900,
+        "Stock": 23,
+        "Imagen": "../../public/Imagenes/Productos/Circus/Circus-sauvignon.png"
+    },
+
+    {
+        "ID":13,
+        "Bodega": "Lola Montes",
+        "Linea": "Circus",
+        "Cepa": "Dulce Ferroir",
+        "Precio": 2900,
+        "Stock": 20,
+        "Imagen": "../../public/Imagenes/Productos/Circus/Circus-Dulce.png"
+    }
+]
