@@ -17,6 +17,7 @@ function App() {
         <Route exact path='/' element= {<Home/>}/>
         <Route exact path='/Store' element={<ItemListContainer/>}/>
         <Route exact path='/product/:id' element={<ProductDetail/>}/>
+        <Route exact path='*' element={<h2>Sitio en contrucción</h2>}/>
       </Routes>
     </BrowserRouter>
     </>
