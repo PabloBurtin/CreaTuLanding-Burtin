@@ -3,10 +3,13 @@ import { useEffect } from 'react';
 import { useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { getSingleProduct } from '../../async';
+import InputCount from '../BotonCompra/InputCount';
 import './ProductDetail.css'
+import ItemDetail from '../BotonCompra/ItemDetail';
 
 const ProductDetail = () => {
     
+
     const {id} = useParams ();
 
     const [product, setProduct] = useState ({});
@@ -14,6 +17,11 @@ const ProductDetail = () => {
     useEffect(()=>{
         getSingleProduct(id).then(item => setProduct(item))
     }, [id])
+    
+
+    const addToCart = (quantity) => {
+        alert (`Agregaste ${quantity} unidades de ${item.title} al carrito.`)
+    }
   
     return (
     <section>
@@ -24,6 +32,11 @@ const ProductDetail = () => {
         </article>
         <p>{product.description}</p>
         <p>Price $ {product.price}</p>
+        <ItemDetail inputType={"input"}/>
+
+     
+
+
 
     </section>
   )
