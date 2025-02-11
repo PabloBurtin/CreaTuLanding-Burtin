@@ -1,55 +1,70 @@
-import { createContext, useState } from "react";
+import { Children } from "react";
+import { useState ,createContext } from "react";
 
-export const CarritoContext = createContext ({
+export const CarritoContext = createContext({
     carrito: [],
     total: 0,
     cantidadTotal: 0
 });
 
-export const carritoProvider = ({children}) => {
 
+export const CarritoProvider = ({children}) =>{
     const [carrito, setCarrito] = useState([])
-    const [tota, setTotal] = useState(0)
-    const [cantidadTotal, setCantidadTotal] = useState (0)
+    const [total, setTotal] = useState(0)
+    const [cantidadTotal, setCatidadTotal] = useState(0)
+
+
+    console.log(carrito)
 
     const agregarAlCarrito = (item, cantidad) => {
-        const productoExistente =carrito.find (prod => prod.item.id === item.id)
+        const productoExistente = carrito.find(prod => prod.item.id ===item.id)
 
-        if (!productoExistente) {
-            setCarrito(prev=> [...prev, {item, cantidad}])
-            setCantidadTotal(prev=> prev+cantidad)
-            setTotal (prev => prev + (item.precio * cantidad))
+        if(!productoExistente) {
+            setCarrito(prev => [...prev, {item, cantidad}])
+            setCatidadTotal(prev => prev + cantidad)
+            setTotal(prev => prev + (item.precio *cantidad))
         } else {
             const carritoActualizado = carrito.map (prod => {
-                if (prod.item.id == item.id){
+                if(prod.item.id == item.id) {
                     return {...prod, cantidad: prod.cantidad + cantidad}
-                    
-                }else {return prod}
+                } else {
+                    return prod
+                }
             })
             setCarrito(carritoActualizado)
-            setCantidadTotal(prev => prev+cantidad)
+            setCatidadTotal(prev => prev + cantidad)
             setTotal(prev => prev + (item.precio * cantidad))
         }
     }
-    const vaciarCarrito = () => {
-        setCarrito([])
-        setCantidadTotal(0)
-        setTotal(0)
-    }
-    
-    //Funcion eleminar un producto
-    
-    const eliminarProducto = (id) => {
-        const productoEleminado = carrito.find (prod => prod.item.id === id)
-        const carritoActualizado = carrito.filter(prod => prod.item.id !== id)
-    
+
+    //funcion eliminar Producto:
+
+    const eliminarProducto = (id) =>{
+        const productoEliminado = carrito.find(prod => prod.item.id === id)
+        const carritoActualizado = carrito.filter(prod => prod .item.id !== id)
+
         setCarrito(carritoActualizado)
-        setCantidadTotal(prev => prev - productoEleminado.cantidad)
-        setTotal (prev => prev - (productoEleminado.item.precio * productoEleminado.cantidad))
+        setCatidadTotal(prev => prev - productoEliminado.cantidad)
+        setTotal(prev => prev - (productoEliminado.item.precio * productoEliminado.cantidad))
     }
 
-    
+
+
+
+    //funcion para vaciar el carrito
+
+    const vaciarCarrito = () => {
+        setCarrito([]),
+        setCatidadTotal(0)
+        setTotal(0);
+    }
+
+    return(
+        <CarritoContext.Provider value={{carrito, total, cantidadTotal, agregarAlCarrito, eliminarProducto, vaciarCarrito}}>
+            {children}
+        </CarritoContext.Provider>
+    )
+
+
+
 }
-
-//Para vaciar el carrito
-
