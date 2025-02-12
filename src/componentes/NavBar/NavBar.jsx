@@ -13,7 +13,7 @@ const NavBar = () => {
             <li><Link to="/Bodegas">Bodegas</Link></li>
         </ul>
   
-        <img className='logo' src="../../public/Imagenes/logo.jpg" alt="Logo" />
+        <img className='logo' src="../Imagenes/logo.jpg" alt="Logo" />
         <CartWidget/>
     </header>
   )
