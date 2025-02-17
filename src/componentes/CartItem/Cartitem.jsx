@@ -6,9 +6,9 @@ const Cartitem = ({item,cantidad}) => {
 
   return (
     <>
-        <h4>{item.nombre}</h4>
+        <h4>{item.Bodega} {item.Linea} {item.Cepa}</h4>
         <p>Cantidad: {cantidad}</p>
-        <p>Precio: {item.precio}</p>
+        <p>Precio: {item.Precio}</p>
         <button onClick={()=>eliminarProducto(item.id)}>Eliminar</button>
     </>
   )
