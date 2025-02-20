@@ -5,6 +5,7 @@ import ItemListContainer from './componentes/ItemListContainer/ItemListContainer
 import NavBar from './componentes/NavBar/NavBar'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { CarritoProvider } from './Context/CarritoContext'
+import { BodegaProvider } from './Context/BodegaContext'
 import Cart from './componentes/Cart/Cart'
 import Checkout from './componentes/Checkout/Checkout'
 import ItemDetailContainer from './componentes/ItemDetailContainer/ItemDetailContainer'
@@ -19,6 +20,7 @@ function App() {
     <>
    <BrowserRouter>
    <CarritoProvider>
+    <BodegaProvider>
       <NavBar/>
       <Routes>
         <Route path='/' element= {<Home/>}/>
@@ -29,6 +31,7 @@ function App() {
         <Route path='/checkout' element={<Checkout/>}/>
         <Route path='*' element={<h2>Sitio en contrucción</h2>}/>
       </Routes>
+    </BodegaProvider>
     </CarritoProvider>
     </BrowserRouter>
 

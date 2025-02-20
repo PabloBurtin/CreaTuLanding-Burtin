@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { db } from '../../services/config';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import ItemList from '../ItemList/ItemList';
 import Loader from '../Loader/Loader';
+import BodegaContext from '../../Context/BodegaContext';
+
 
 const ItemListContainer = () => {
-  const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [bodegas, setBodegas] = useState([]);
   const { idBodega } = useParams();
-  const navigate = useNavigate ();
+  const navigate = useNavigate();
+  const { setProductos, bodegas, setBodegas } = useContext(BodegaContext);
 
   useEffect(() => {
     const obtenerBodegas = async () => {
@@ -24,51 +25,55 @@ const ItemListContainer = () => {
             listaBodegas.push(data.Bodega);
           }
         });
-        
-        setBodegas(listaBodegas);
+
+        setBodegas(listaBodegas); 
       } catch (error) {
         console.log(error);
       }
     };
 
     obtenerBodegas();
-  }, []);
+  }, [setBodegas]);
 
   useEffect(() => {
     setLoading(true);
-    let misProductosQuery = collection(db, 'productos');
+    const obtenerProductos = async () => {
+      try {
+        let misProductosQuery = collection(db, 'productos');
+        
+        if (idBodega) {
+          misProductosQuery = query(misProductosQuery, where('Bodega', '==', idBodega));
+        }
 
-    if (idBodega) {
-      misProductosQuery = query(misProductosQuery, where('Bodega', '==', idBodega));
-    }
+        const res = await getDocs(misProductosQuery);
+        const nuevosProductos = res.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
 
-    getDocs(misProductosQuery)
-      .then(res => {
-        const nuevosProductos = res.docs.map(doc => {
-          const data = doc.data();
-          return { id: doc.id, ...data };
-        });
-        setProductos(nuevosProductos);
-      })
-      .catch(error => console.log(error))
-      .finally(() => {
+        console.log ('Productos después del filtrado', nuevosProductos);
+        
+        setProductos(nuevosProductos); // Almacenar productos en el contexto
+      } catch (error) {
+        console.log(error);
+      } finally {
         setLoading(false);
-      });
-  }, [idBodega]);
+      }
+    };
 
+    obtenerProductos();
+  }, [idBodega, setProductos]);
 
   return (
     <>
       <h2 style={{ textAlign: 'center' }}>Mis Productos</h2>
-      
       <div className='selectorBodega'>
-       
         <select value={idBodega || ''} onChange={(e) => {
           const selected = e.target.value;
-          if (selected){ 
-            navigate (`/Store/bodega/${selected || ''}`);
+          if (selected) { 
+            navigate(`/Store/bodega/${selected}`);
           } else {
-            navigate ('/Store');
+            navigate('/Store');
           }
         }}>
           <option value="">Todas las Bodegas</option>
@@ -80,7 +85,7 @@ const ItemListContainer = () => {
         </select>
       </div>
 
-      {loading ? <Loader /> : <ItemList productos={productos} />}
+      {loading ? <Loader /> : <ItemList />}
     </>
   );
 }
