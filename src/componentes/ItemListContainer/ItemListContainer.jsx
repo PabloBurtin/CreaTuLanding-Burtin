@@ -5,6 +5,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import ItemList from '../ItemList/ItemList';
 import Loader from '../Loader/Loader';
 import BodegaContext from '../../Context/BodegaContext';
+import CepaContext from '../../Context/CepaContext';
 
 
 const ItemListContainer = () => {
@@ -12,21 +13,32 @@ const ItemListContainer = () => {
   const { idBodega } = useParams();
   const navigate = useNavigate();
   const { setProductos, bodegas, setBodegas } = useContext(BodegaContext);
+  const {cepas, setCepas, selectedCepa, setSelectedCepa} = useContext (CepaContext);
+  const [orden, setOrden] = useState ('');
+
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
 
   useEffect(() => {
     const obtenerBodegas = async () => {
       try {
         const res = await getDocs(collection(db, 'productos'));
-        const listaBodegas = [];
+        const listaBodegas = new Set ();
+       
         
         res.docs.forEach(doc => {
           const data = doc.data();
-          if (data.Bodega && !listaBodegas.includes(data.Bodega)) {
-            listaBodegas.push(data.Bodega);
+          if (data.Bodega) {
+            listaBodegas.add(data.Bodega);
           }
         });
 
-        setBodegas(listaBodegas); 
+        setBodegas([...listaBodegas]);
       } catch (error) {
         console.log(error);
       }
@@ -37,19 +49,43 @@ const ItemListContainer = () => {
 
   useEffect(() => {
     setLoading(true);
-    const obtenerProductos = async () => {
+    const obtenerCepasYProductos = async () => {
       try {
-        let misProductosQuery = collection(db, 'productos');
-        
-        if (idBodega) {
-          misProductosQuery = query(misProductosQuery, where('Bodega', '==', idBodega));
+        const res = await getDocs(collection (db, 'productos'));
+        let nuevosProductos = res.docs.map(doc=>({
+          id: doc.id, ...doc.data()
+        }));
+
+        const cepasDeBodega = new Set();
+        nuevosProductos.forEach(producto => {
+          cepasDeBodega.add(producto.Cepa);
+        });
+
+        setCepas([...cepasDeBodega])
+
+        if (selectedCepa) {
+          nuevosProductos = nuevosProductos.filter (producto => producto.Cepa === selectedCepa);
         }
 
-        const res = await getDocs(misProductosQuery);
-        const nuevosProductos = res.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
+        if (idBodega) {
+          nuevosProductos = nuevosProductos.filter(producto => producto.Bodega === idBodega);
+          
+         
+          const cepasFiltradas = new Set();
+          nuevosProductos.forEach(producto => {
+            cepasFiltradas.add(producto.Cepa);
+          });
+          setCepas([...cepasFiltradas]);
+        }
+
+        nuevosProductos = shuffleArray(nuevosProductos);
+
+
+        if (orden === 'menor') {
+          nuevosProductos.sort ((a, b) => a.Precio - b.Precio)
+        } else if (orden === 'mayor') {
+          nuevosProductos.sort((a, b) => b.Precio - a.Precio);
+        }
 
         console.log ('Productos después del filtrado', nuevosProductos);
         
@@ -61,8 +97,8 @@ const ItemListContainer = () => {
       }
     };
 
-    obtenerProductos();
-  }, [idBodega, setProductos]);
+    obtenerCepasYProductos();
+  }, [idBodega, selectedCepa, setProductos, orden]);
 
   return (
     <>
@@ -70,11 +106,7 @@ const ItemListContainer = () => {
       <div className='selectorBodega'>
         <select value={idBodega || ''} onChange={(e) => {
           const selected = e.target.value;
-          if (selected) { 
-            navigate(`/Store/bodega/${selected}`);
-          } else {
-            navigate('/Store');
-          }
+          navigate(selected ? `/Store/bodega/${selected}` : '/Store');
         }}>
           <option value="">Todas las Bodegas</option>
           {bodegas.map((bodega, index) => (
@@ -83,6 +115,30 @@ const ItemListContainer = () => {
             </option>
           ))}
         </select>
+      </div>
+
+      <div className='selectorCepa'>
+      <select value={selectedCepa || ''} onChange={(e) => {
+    const selectedCepaValue = e.target.value;
+    setSelectedCepa(selectedCepaValue);
+    if (idBodega) {
+      navigate(selectedCepaValue ? `/Store/bodega/${idBodega}/cepa/${selectedCepaValue}` : `/Store/bodega/${idBodega}`);
+    } else {
+      navigate('/Store'); // Navegar a la tienda si no se selecciona ninguna bodega
+    }
+  }}>
+    <option value="">Todas</option>
+    {cepas.map((cepa, index) => (
+      <option key={index} value={cepa}>
+        {cepa}
+      </option>
+    ))}
+  </select>
+</div>
+
+      <div className='BotonDeOrden'>
+        <button onClick={()=> setOrden('menor')}> Ordenar por Menor Precio ⬇️</button>
+        <button onClick={()=> setOrden('mayor')}> Ordenar por Mayor Precio ⬆️</button>
       </div>
 
       {loading ? <Loader /> : <ItemList />}
