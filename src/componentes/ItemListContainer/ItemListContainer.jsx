@@ -56,15 +56,27 @@ const ItemListContainer = () => {
           id: doc.id, ...doc.data()
         }));
 
-        const cepasDeBodega = new Set();
+        const bodegasConCepa = new Set();
+        const cepasDisponibles = new Set();
+
         nuevosProductos.forEach(producto => {
-          cepasDeBodega.add(producto.Cepa);
+          cepasDisponibles.add(producto.Cepa);
+
+          if (selectedCepa && producto.Cepa === selectedCepa){
+            bodegasConCepa.add(producto.Bodega)
+          }
         });
 
-        setCepas([...cepasDeBodega])
+        setCepas([...cepasDisponibles])
 
         if (selectedCepa) {
-          nuevosProductos = nuevosProductos.filter (producto => producto.Cepa === selectedCepa);
+          setBodegas ([...bodegasConCepa]);
+        } else { 
+          setBodegas (bodegasConCepa.size ? [...bodegasConCepa] : [...listaBodegas]);
+        }
+
+        if (selectedCepa){
+          nuevosProductos = nuevosProductos.filter (producto => producto.cepa === selectedCepa);
         }
 
         if (idBodega) {
@@ -98,7 +110,7 @@ const ItemListContainer = () => {
     };
 
     obtenerCepasYProductos();
-  }, [idBodega, selectedCepa, setProductos, orden]);
+  }, [idBodega, selectedCepa, setProductos, orden], bodegas);
 
   return (
     <>
