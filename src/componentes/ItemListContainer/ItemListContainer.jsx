@@ -58,9 +58,11 @@ const ItemListContainer = () => {
 
         const bodegasConCepa = new Set();
         const cepasDisponibles = new Set();
+        const listaBodegas = new Set();
 
         nuevosProductos.forEach(producto => {
           cepasDisponibles.add(producto.Cepa);
+          listaBodegas.add(producto.Bodega)
 
           if (selectedCepa && producto.Cepa === selectedCepa){
             bodegasConCepa.add(producto.Bodega)
@@ -72,11 +74,11 @@ const ItemListContainer = () => {
         if (selectedCepa) {
           setBodegas ([...bodegasConCepa]);
         } else { 
-          setBodegas (bodegasConCepa.size ? [...bodegasConCepa] : [...listaBodegas]);
+          setBodegas ([...listaBodegas]);
         }
 
         if (selectedCepa){
-          nuevosProductos = nuevosProductos.filter (producto => producto.cepa === selectedCepa);
+          nuevosProductos = nuevosProductos.filter (producto => producto.Cepa === selectedCepa);
         }
 
         if (idBodega) {
@@ -110,12 +112,13 @@ const ItemListContainer = () => {
     };
 
     obtenerCepasYProductos();
-  }, [idBodega, selectedCepa, setProductos, orden], bodegas);
+  }, [idBodega, selectedCepa, setProductos, orden]);
 
   return (
     <>
       <h2 style={{ textAlign: 'center' }}>Mis Productos</h2>
       <div className='selectorBodega'>
+        <p> Seleccionar bodega
         <select value={idBodega || ''} onChange={(e) => {
           const selected = e.target.value;
           navigate(selected ? `/Store/bodega/${selected}` : '/Store');
@@ -127,9 +130,11 @@ const ItemListContainer = () => {
             </option>
           ))}
         </select>
+        </p>
       </div>
 
       <div className='selectorCepa'>
+        <p> Seleccionar Cepa
       <select value={selectedCepa || ''} onChange={(e) => {
     const selectedCepaValue = e.target.value;
     setSelectedCepa(selectedCepaValue);
@@ -139,17 +144,20 @@ const ItemListContainer = () => {
       navigate('/Store'); // Navegar a la tienda si no se selecciona ninguna bodega
     }
   }}>
-    <option value="">Todas</option>
+    <option className='OptionCepa'value="">Todas</option>
     {cepas.map((cepa, index) => (
       <option key={index} value={cepa}>
         {cepa}
       </option>
     ))}
   </select>
+  </p>
 </div>
 
-      <div className='BotonDeOrden'>
+      <div className='BotonDeOrdenMenor'>
         <button onClick={()=> setOrden('menor')}> Ordenar por Menor Precio ⬇️</button>
+      </div>
+      <div className='BotonDeOrdenMayor'>
         <button onClick={()=> setOrden('mayor')}> Ordenar por Mayor Precio ⬆️</button>
       </div>
 
